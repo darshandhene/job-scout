@@ -13,7 +13,7 @@ Run it locally at [http://127.0.0.1:4317](http://127.0.0.1:4317).
 - Reads [LinkedIn](https://www.linkedin.com/jobs), [Jobright](https://jobright.ai) new-grad and H-1B lists, [Himalayas](https://himalayas.app), [Remote OK](https://remoteok.com), [Jobicy](https://jobicy.com), [Arbeitnow](https://www.arbeitnow.com), and [Remotive](https://remotive.com).
 - Daily check at the hour you choose, plus **Check the boards** whenever you want a pass now.
 - In-app matches, a notification history, desktop alerts, and Slack, Discord, or [ntfy](https://ntfy.sh) delivery.
-- Save or dismiss a role. Saved roles stay. Dismissed ones leave the main list.
+- Save, apply, or dismiss a role. Saved and applied roles stay. Dismissed ones leave the main list.
 - Watches, matches, and notices stay in `data/brief.json` on this machine. Nothing is sent anywhere unless you add a webhook.
 
 ## How to run
@@ -55,7 +55,7 @@ npm test
 5. A role matches a watch when the title contains one of your role phrases as whole words, and it passes that watch’s location, exclusion, remote, sponsorship, and new-grad rules. Senior, staff, and director titles are left out of new-grad watches.
 6. Location can list several places, separated by commas. **United States** also matches US cities and states. Leave location blank to include roles with no city.
 7. New matches are stored, shown on the desk, and written to the notification bell. If desktop alerts are on, the browser notifies you while the tab is open. If a webhook is set, Brief posts the same news there.
-8. One pass keeps up to 15 new roles per watch and 40 new roles overall. Saved roles are kept. Other roles are trimmed to the newest 200. The bell keeps the latest 60 notices.
+8. One pass keeps up to 15 new roles per watch and 40 new roles overall. Saved and applied roles are kept. Other roles are trimmed to the newest 200. The bell keeps the latest 60 notices.
 
 ## User guide
 
@@ -82,9 +82,10 @@ New roles appear in the center. A card shows the title, company, location, sourc
 
 - **Open role** goes to the original posting.
 - **Save** keeps the role.
+- **Applied** moves it to the Applied list.
 - **Dismiss** hides it from the main list.
 
-Filter the list with New, Saved, All, and Dismissed. All hides dismissed roles. Saved roles stay even if you later delete the watch that found them.
+Filter the list with New, Saved, Applied, All, and Dismissed. All hides dismissed roles. Saved and applied roles stay even if you later delete the watch that found them.
 
 ### Check the boards
 

@@ -11,7 +11,7 @@ export type Sponsorship = "explicit" | "likely" | "none" | "unknown";
 
 export type SponsorshipFilter = "any" | "required";
 
-export type JobStatus = "new" | "saved" | "dismissed";
+export type JobStatus = "new" | "saved" | "applied" | "dismissed";
 
 export type Watch = {
   id: string;

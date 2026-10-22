@@ -4,6 +4,7 @@ import { matchingWatchIds } from "@/lib/match";
 import { SOURCES } from "@/lib/sources";
 import { withDb } from "@/lib/store";
 import { cleanText, splitList } from "@/lib/text";
+import { pruneJobs, retainsAfterWatchDelete } from "@/lib/status";
 import { formatNextRun, isScheduleDue, localDateKey, nextRunDate } from "@/lib/time";
 import type {
   Database,
@@ -125,12 +126,7 @@ function collectInserts(db: Database, feeds: FeedJob[]): FeedJob[] {
 }
 
 function prune(db: Database) {
-  const saved = db.jobs.filter((job) => job.status === "saved");
-  const rest = db.jobs
-    .filter((job) => job.status !== "saved")
-    .sort((a, b) => new Date(b.firstSeenAt).getTime() - new Date(a.firstSeenAt).getTime())
-    .slice(0, 200);
-  db.jobs = [...saved, ...rest];
+  db.jobs = pruneJobs(db.jobs);
   db.notices = db.notices.slice(0, 60);
 }
 
@@ -239,7 +235,7 @@ export async function deleteWatch(id: string): Promise<PublicState> {
     if (db.watches.length === before) throw new ServiceError(404, "That watch is gone.");
     db.jobs = db.jobs.filter((job) => {
       job.watchIds = job.watchIds.filter((watchId) => watchId !== id);
-      return job.status === "saved" || job.watchIds.length > 0;
+      return retainsAfterWatchDelete(job);
     });
     return toPublicState(db);
   });

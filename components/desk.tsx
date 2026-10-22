@@ -22,7 +22,7 @@ import { formatBoardsRead } from "@/lib/time";
 import type { JobStatus, PublicSettings, PublicState, Watch } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-type StatusFilter = "new" | "saved" | "all" | "dismissed";
+type StatusFilter = "new" | "saved" | "applied" | "all" | "dismissed";
 
 type StateResponse = { state: PublicState; inserted?: number };
 
@@ -281,6 +281,7 @@ export function Desk() {
   const counts = {
     new: countFor(state, selected, "new"),
     saved: countFor(state, selected, "saved"),
+    applied: countFor(state, selected, "applied"),
     all: state.jobs.filter((job) => {
       if (job.status === "dismissed") return false;
       return selected === "all" || job.watchIds.includes(selected);
@@ -466,6 +467,7 @@ export function Desk() {
                   [
                     ["new", `New ${counts.new}`],
                     ["saved", `Saved ${counts.saved}`],
+                    ["applied", `Applied ${counts.applied}`],
                     ["all", `All ${counts.all}`],
                     ["dismissed", `Dismissed ${counts.dismissed}`],
                   ] as const
@@ -489,7 +491,9 @@ export function Desk() {
                   <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted-foreground">
                     {filter === "new"
                       ? `No unseen matches. ${state.nextRunLabel}, Brief reads the boards again.`
-                      : "Roles you save or dismiss will collect here."}
+                      : filter === "applied"
+                        ? "Roles you mark applied will collect here."
+                        : "Roles you save or dismiss will collect here."}
                   </p>
                 </div>
               ) : (

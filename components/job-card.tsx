@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Bookmark, X } from "lucide-react";
+import { ExternalLink, Bookmark, Check, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { sourceLabel } from "@/lib/sources";
@@ -34,6 +34,7 @@ export function JobCard({
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
         {job.status === "new" && <Badge>New</Badge>}
         {job.status === "saved" && <Badge variant="secondary">Saved</Badge>}
+        {job.status === "applied" && <Badge variant="secondary">Applied</Badge>}
         {job.status === "dismissed" && <Badge variant="outline">Dismissed</Badge>}
         {job.remote && <Badge variant="outline">Remote</Badge>}
         {job.newGrad && <Badge variant="outline">New grad</Badge>}
@@ -101,6 +102,31 @@ export function JobCard({
           >
             <Bookmark data-icon="inline-start" />
             Saved
+          </Button>
+        )}
+        {job.status !== "applied" ? (
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            className="h-9 bg-card"
+            disabled={pending}
+            onClick={() => onStatus("applied")}
+          >
+            <Check data-icon="inline-start" />
+            Applied
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            className="h-9 bg-card"
+            disabled={pending}
+            onClick={() => onStatus("new")}
+          >
+            <Check data-icon="inline-start" />
+            Applied
           </Button>
         )}
         {job.status !== "dismissed" ? (
